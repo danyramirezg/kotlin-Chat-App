@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         mySectionPagerAdapter = SectionPagerAdapter(supportFragmentManager)
 
-        //container.adapter = mySectionPagerAdapter
+        container.adapter = mySectionPagerAdapter
 
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with action", Snackbar.LENGTH_LONG)
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
+        val id = item?.itemId
         if(id == R.id.action_settings){
             return true
         }
@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    inner class SectionPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
+    inner class SectionPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT ) {
         override fun getItem(position: Int): Fragment {
             return PlaceHolderFragment.newIntent(position + 1)
         }
@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
         ): View? {
-            val rootView = inflater.inflate(R.layout.fragment_main, container, false)
+            val rootView: View = inflater.inflate(R.layout.fragment_main, container, false)
             rootView.section_label.text =
                 "Hello Dany from section ${arguments?.getInt(ARG_SECTION_NUMBER)}"
 
