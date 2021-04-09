@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "427170876575",
+    "project_id": "chatapp-3da3f",
+    "storage_bucket": "chatapp-3da3f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:427170876575:android:56b6d096a2a4bca2b526aa",
+        "android_client_info": {
+          "package_name": "com.dany.chatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "427170876575-p0ntkcgoqt90b2i0m4en07sj3hjmb7im.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dany.chatapp",
+            "certificate_hash": "2f9e767f5cb1960a6d13fae54f88dc160e17784b"
+          }
+        },
+        {
+          "client_id": "427170876575-3mcl05t7eatdmhua86lqm1libkgjm19g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5FhCbho05tC35gHT3Js8pLV34ee_LOGA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "427170876575-3mcl05t7eatdmhua86lqm1libkgjm19g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -2,4 +2,11 @@
     <string name="app_name">ChatApp</string>
     <string name="action_logout">action_logout</string>
     <string name="action_profile">action_profile</string>
+    <string name="hint_email">Enter your email</string>
+    <string name="hint_password">Password</string>
+    <string name="button_login">Login</string>
+    <string name="text_signup"><u>No account? Go to Sign up</u></string>
+
+    <style name="title_activity_main">MainActivity</style>
+
 </resources>
