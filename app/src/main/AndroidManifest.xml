@@ -8,7 +8,11 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.ChatApp">
-        <activity android:name=".activities.ProfileActivity"></activity>
+        <activity
+            android:name=".activities.ProfileActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activities.MainActivity"
             android:screenOrientation="portrait"

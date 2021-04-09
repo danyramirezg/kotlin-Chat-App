@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">ChatApp</string>
     <string name="action_logout">Sign out</string>
-    <string name="action_profile">action_profile</string>
+    <string name="action_profile">Profile</string>
     <string name="hint_email">Enter your email</string>
     <string name="hint_password">Password</string>
     <string name="hint_name">Enter your name</string>
@@ -10,6 +10,8 @@
     <string name="button_signUp">Sign up</string>
     <string name="text_signup"><u>No account? Go to Sign up</u></string>
     <string name="text_login"><u>Already have an account?</u></string>
+    <string name="button_apply">Apply changes</string>
+    <string name="button_delete">Delete Profile</string>
 
     <style name="title_activity_main">MainActivity</style>
 

@@ -115,7 +115,7 @@ class SignUpActivity : AppCompatActivity() {
                         val phone = phoneET.text.toString().trim()
                         val email = emailET.text.toString().trim()
 
-                        val user = User(name, phone, email, "", "Hi! It's Dany", "", "")
+                        val user = User(name, phone, email, "", "Hi! It's me!", "", "")
                         firebaseDB.collection(DATA_USERS).document(firebaseAuth.uid!!).set(user)
                     }
                     progressLayout.visibility = View.GONE

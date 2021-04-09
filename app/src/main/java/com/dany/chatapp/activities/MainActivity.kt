@@ -46,8 +46,13 @@ class MainActivity : AppCompatActivity() {
 
         when (item.itemId) {
             R.id.action_logOut -> onSignOut()
+            R.id.action_profile -> onProfile()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun onProfile(){
+        startActivity(ProfileActivity.newIntent(this))
     }
 
     private fun onSignOut() {
