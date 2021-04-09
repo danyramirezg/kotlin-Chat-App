@@ -38,7 +38,7 @@ class LoginActivity : AppCompatActivity() {
         setTextChangeListener(emailET, emailTIL)
         setTextChangeListener(passwordET, passwordTIL)
 
-        // When I should the progress layout I don't want the user are able to click anything:
+        // While the progress layout I don't want the user are able to click anything:
         progressLayout.setOnTouchListener { v, event -> true }
 
     }
@@ -76,7 +76,10 @@ class LoginActivity : AppCompatActivity() {
 
         if (proceed) {
             progressLayout.visibility = View.VISIBLE
-            firebaseAuth.signInWithEmailAndPassword(emailET.text.toString().trim(), passwordET.text.toString().trim())
+            firebaseAuth.signInWithEmailAndPassword(
+                emailET.text.toString().trim(),
+                passwordET.text.toString().trim()
+            )
                 .addOnCompleteListener { task ->
                     if (!task.isSuccessful) {
                         progressLayout.visibility = View.GONE
@@ -96,7 +99,6 @@ class LoginActivity : AppCompatActivity() {
                             .show()
                         Log.d("===>Successful login", "${task.exception?.localizedMessage}")
                     }
-
                 }
         }
     }

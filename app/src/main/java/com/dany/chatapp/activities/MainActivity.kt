@@ -11,12 +11,15 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.dany.chatapp.R
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_main.view.*
 
 class MainActivity : AppCompatActivity() {
 
     private var mySectionPagerAdapter: SectionPagerAdapter? = null
+
+    private val firebaseAuth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,15 +43,20 @@ class MainActivity : AppCompatActivity() {
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item?.itemId
-        if(id == R.id.action_settings){
-            return true
-        }
 
+        when (item.itemId) {
+            R.id.action_logOut -> onSignOut()
+        }
         return super.onOptionsItemSelected(item)
     }
 
-    inner class SectionPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT ) {
+    private fun onSignOut() {
+        firebaseAuth.signOut()
+        startActivity(LoginActivity.newIntent(this))
+    }
+
+    inner class SectionPagerAdapter(fm: FragmentManager) :
+        FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
         override fun getItem(position: Int): Fragment {
             return PlaceHolderFragment.newIntent(position + 1)
         }
@@ -68,7 +76,7 @@ class MainActivity : AppCompatActivity() {
         ): View? {
             val rootView: View = inflater.inflate(R.layout.fragment_main, container, false)
             rootView.section_label.text =
-                "Hello Dany from section ${arguments?.getInt(ARG_SECTION_NUMBER)}"
+                "Hello Koombea - Mobile team from section ${arguments?.getInt(ARG_SECTION_NUMBER)}"
 
             return rootView
         }
@@ -87,6 +95,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
     companion object {
         fun newIntent(context: Context) = Intent(context, MainActivity::class.java)
     }
