@@ -5,12 +5,14 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.*
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.dany.chatapp.R
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_main.view.*
@@ -29,12 +31,50 @@ class MainActivity : AppCompatActivity() {
         mySectionPagerAdapter = SectionPagerAdapter(supportFragmentManager)
 
         container.adapter = mySectionPagerAdapter
+        // Switch into Tables (camera, chats, status)
+        container.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
+        tabs.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(container))
+        resizeTabs()
+        tabs.getTabAt(1)?.select()
 
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
+        tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
+            // Hides (in camera, status) and shows in chats the newChat button
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                when (tab?.position) {
+                    0 -> fab.hide()
+                    1 -> fab.show()
+                    2 -> fab.hide()
+                }
+            }
+        })
+
+//   This code is for the newChat button (to test in the beginning):
+//        fab.setOnClickListener { view ->
+//            Snackbar.make(view, "Replace with action", Snackbar.LENGTH_LONG)
+//                .setAction("Action", null).show()
+//        }
     }
+
+    // Change the camera tab (Make it smaller)
+    fun resizeTabs() {
+
+        val layout = (tabs.getChildAt(0) as LinearLayout).getChildAt(0) as LinearLayout
+        val layoutParams = layout.layoutParams as LinearLayout.LayoutParams
+        layoutParams.weight = 0.4f
+        layout.layoutParams = layoutParams
+    }
+
+    fun onNewChat(v: View) {
+
+
+    }
+
 
     override fun onResume() {
         super.onResume()
