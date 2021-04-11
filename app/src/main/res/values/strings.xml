@@ -15,4 +15,8 @@
 
     <style name="title_activity_main">MainActivity</style>
 
+    <string name="hello_status_update_fragment">Hello from camera status update fragment</string>
+    <string name="hello_chats_fragment">Hello from chats fragment</string>
+    <string name="hello_status_fragment">Hello from status fragment</string>
+
 </resources>

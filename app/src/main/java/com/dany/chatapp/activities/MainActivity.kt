@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.*
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.constraintlayout.widget.Placeholder
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
@@ -14,6 +15,9 @@ import com.dany.chatapp.R
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
+import fragments.ChatsFragment
+import fragments.StatusFragment
+import fragments.StatusUpdateFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_main.view.*
 
@@ -22,6 +26,11 @@ class MainActivity : AppCompatActivity() {
     private var mySectionPagerAdapter: SectionPagerAdapter? = null
 
     private val firebaseAuth = FirebaseAuth.getInstance()
+
+    private val statusUpdateFragment = StatusUpdateFragment()
+    private val chatsFragment = ChatsFragment()
+    private val statusFragment = StatusFragment()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,7 +81,6 @@ class MainActivity : AppCompatActivity() {
 
     fun onNewChat(v: View) {
 
-
     }
 
 
@@ -110,10 +118,14 @@ class MainActivity : AppCompatActivity() {
         startActivity(LoginActivity.newIntent(this))
     }
 
-    inner class SectionPagerAdapter(fm: FragmentManager) :
-        FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+    inner class SectionPagerAdapter(fm: FragmentManager):
+        FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT){
         override fun getItem(position: Int): Fragment {
-            return PlaceHolderFragment.newIntent(position + 1)
+            return when(position){
+                0 -> statusUpdateFragment
+                1 -> chatsFragment
+                else -> statusFragment
+            }
         }
 
         override fun getCount(): Int {
@@ -122,38 +134,55 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    class PlaceHolderFragment : Fragment() {
-
-        override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-        ): View? {
-            val rootView: View = inflater.inflate(R.layout.fragment_main, container, false)
-            rootView.section_label.text =
-                "Hello Koombea - Mobile team from section ${arguments?.getInt(ARG_SECTION_NUMBER)}"
-
-            return rootView
-        }
-
-        companion object {
-            private val ARG_SECTION_NUMBER = "Section number"
-
-            fun newIntent(sectionNumber: Int): PlaceHolderFragment {
-                val fragment = PlaceHolderFragment()
-                val args = Bundle()
-
-                args.putInt(ARG_SECTION_NUMBER, sectionNumber)
-                fragment.arguments = args
-                return fragment
-
-            }
-        }
-    }
-
     companion object {
         fun newIntent(context: Context) = Intent(context, MainActivity::class.java)
     }
 
 
 }
+
+
+//   This code allows me to see the different views of the fragment (wrote in the beginning):
+
+//    inner class SectionPagerAdapter(fm: FragmentManager) :
+//        FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+//        override fun getItem(position: Int): Fragment {
+//            return PlaceHolderFragment.newIntent(position + 1)
+//        }
+//
+//        override fun getCount(): Int {
+//            return 3
+//        }
+//
+//    }
+//
+//    class PlaceHolderFragment : Fragment() {
+//
+//        override fun onCreateView(
+//            inflater: LayoutInflater,
+//            container: ViewGroup?,
+//            savedInstanceState: Bundle?
+//        ): View? {
+//            val rootView: View = inflater.inflate(R.layout.fragment_main, container, false)
+//            rootView.section_label.text =
+//                "Hello Dany from section ${arguments?.getInt(ARG_SECTION_NUMBER)}"
+//
+//            return rootView
+//        }
+//
+//        companion object {
+//            private val ARG_SECTION_NUMBER = "Section number"
+//
+//            fun newIntent(sectionNumber: Int): PlaceHolderFragment {
+//                val fragment = PlaceHolderFragment()
+//                val args = Bundle()
+//
+//                args.putInt(ARG_SECTION_NUMBER, sectionNumber)
+//                fragment.arguments = args
+//                return fragment
+//
+//            }
+//        }
+//    }
+
+
