@@ -9,8 +9,9 @@ val DATA_USER_STATUS = "status"
 val DATA_USER_STATUS_URL = "statusUrl"
 val DATA_USER_STATUS_TIME = "statusTime"
 
-
 // Constants to the images (photos):
-
 val REQUEST_CODE_PHOTO = 1234
 val DATA_IMAGES = "Images"
+
+// Permissions:
+val PERMISSIONS_REQUEST_READ_CONTACTS = 5432

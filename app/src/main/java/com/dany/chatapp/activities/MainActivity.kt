@@ -2,12 +2,16 @@ package com.dany.chatapp.activities
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.*
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.Placeholder
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
@@ -20,6 +24,8 @@ import fragments.StatusFragment
 import fragments.StatusUpdateFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_main.view.*
+import util.PERMISSIONS_REQUEST_READ_CONTACTS
+import java.util.jar.Manifest
 
 class MainActivity : AppCompatActivity() {
 
@@ -80,6 +86,43 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onNewChat(v: View) {
+        if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED){
+            // Permission not granted
+            if(ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_CONTACTS)){
+                AlertDialog.Builder(this)
+                    .setTitle("Contacts permission")
+                    .setMessage("This app requires access to your contacts to initiate a conversation")
+                    .setPositiveButton("Ask me"){ dialog, which ->  requestContactPermission() }
+                    .setNegativeButton("No") {dialog, which ->  } //Don't do anything
+            }
+        } else {
+            // Permission Granted
+            startNewActivity()
+        }
+
+    }
+   // Create a kind of a pop up that request the permission
+    fun requestContactPermission(){
+        ActivityCompat.requestPermissions(this,
+            arrayOf(android.Manifest.permission.READ_CONTACTS), PERMISSIONS_REQUEST_READ_CONTACTS)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray){
+
+        when(requestCode){
+            // If I have the permission, I'm going to the fun startNewActivity()
+            PERMISSIONS_REQUEST_READ_CONTACTS ->{
+                if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    startNewActivity()
+                }
+            }
+        }
+    }
+    // After I have the permission to access the user contact
+    fun startNewActivity(){
 
     }
 
