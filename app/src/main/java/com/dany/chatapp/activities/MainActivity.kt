@@ -1,5 +1,7 @@
 package com.dany.chatapp.activities
 
+import android.Manifest.permission.READ_CONTACTS
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -25,6 +27,7 @@ import fragments.StatusUpdateFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_main.view.*
 import util.PERMISSIONS_REQUEST_READ_CONTACTS
+import util.REQUEST_NEW_CHAT
 import java.util.jar.Manifest
 
 class MainActivity : AppCompatActivity() {
@@ -69,7 +72,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-//   This code is for the newChat button (to test in the beginning):
+  // This code is for the newChat button (to test in the beginning):
 //        fab.setOnClickListener { view ->
 //            Snackbar.make(view, "Replace with action", Snackbar.LENGTH_LONG)
 //                .setAction("Action", null).show()
@@ -86,44 +89,68 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onNewChat(v: View) {
-        if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED){
-            // Permission not granted
-            if(ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_CONTACTS)){
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_CONTACTS)
+                                                 != PackageManager.PERMISSION_GRANTED
+        ) {
+            // If permission is not granted
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    this,
+                    android.Manifest.permission.READ_CONTACTS
+                )
+            ) {
                 AlertDialog.Builder(this)
                     .setTitle("Contacts permission")
                     .setMessage("This app requires access to your contacts to initiate a conversation")
-                    .setPositiveButton("Ask me"){ dialog, which ->  requestContactPermission() }
-                    .setNegativeButton("No") {dialog, which ->  } //Don't do anything
+                    .setPositiveButton("Ask me") { dialog, which -> requestContactPermission() }
+                    .setNegativeButton("No") { dialog, which -> } //Don't do anything
+                    .show()
+            } else{
+                requestContactPermission()
             }
         } else {
-            // Permission Granted
+            // If Permission is Granted then starts newActivity
             startNewActivity()
         }
 
     }
-   // Create a kind of a pop up that request the permission
-    fun requestContactPermission(){
-        ActivityCompat.requestPermissions(this,
-            arrayOf(android.Manifest.permission.READ_CONTACTS), PERMISSIONS_REQUEST_READ_CONTACTS)
+
+    // Create a kind of a pop up that request the permission
+    fun requestContactPermission() {
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(android.Manifest.permission.READ_CONTACTS), PERMISSIONS_REQUEST_READ_CONTACTS
+        )
     }
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
-        grantResults: IntArray){
+        grantResults: IntArray
+    ) {
 
-        when(requestCode){
+        when (requestCode) {
             // If I have the permission, I'm going to the fun startNewActivity()
-            PERMISSIONS_REQUEST_READ_CONTACTS ->{
-                if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            PERMISSIONS_REQUEST_READ_CONTACTS -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     startNewActivity()
                 }
             }
         }
     }
-    // After I have the permission to access the user contact
-    fun startNewActivity(){
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if(resultCode == Activity.RESULT_OK){
+            when (requestCode){
+                REQUEST_NEW_CHAT -> {}
+            }
+        }
+
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    // After I have the permission to access the user contact
+    private fun startNewActivity() {
+        startActivityForResult(ContactsActivity.newIntent(this), REQUEST_NEW_CHAT)
     }
 
 
@@ -141,7 +168,6 @@ class MainActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
-
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
@@ -161,10 +187,10 @@ class MainActivity : AppCompatActivity() {
         startActivity(LoginActivity.newIntent(this))
     }
 
-    inner class SectionPagerAdapter(fm: FragmentManager):
-        FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT){
+    inner class SectionPagerAdapter(fm: FragmentManager) :
+        FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
         override fun getItem(position: Int): Fragment {
-            return when(position){
+            return when (position) {
                 0 -> statusUpdateFragment
                 1 -> chatsFragment
                 else -> statusFragment
@@ -178,10 +204,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
+
+        val PARAM_NAME = "param name"
+        val PARAM_PHONE = "param phone"
+
         fun newIntent(context: Context) = Intent(context, MainActivity::class.java)
     }
-
-
 }
 
 
