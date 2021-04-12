@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/chatLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/grid_2"
+    android:gravity="left"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/chatCV"
+        android:layout_width="@dimen/chat_image_size"
+        android:layout_height="@dimen/chat_image_size"
+        app:cardCornerRadius="@dimen/chat_image_radius"
+        android:layout_centerHorizontal="true"
+        android:background="#750288">
+
+        <ImageView
+            android:id="@+id/chatIV"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="center"
+            android:background="#750288"/>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/chatTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/chatCV"
+        android:layout_toEndOf="@id/chatCV"
+        android:paddingLeft="@dimen/grid_2"
+        android:paddingStart="@dimen/grid_2"
+        android:layout_centerVertical="true"
+        style="@style/Title"
+        android:text="hola this is a test"/>
+
+    <LinearLayout
+        android:id="@+id/progressLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:elevation="10dp"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+
+</RelativeLayout>

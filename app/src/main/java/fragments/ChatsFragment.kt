@@ -1,23 +1,21 @@
 package fragments
 
+import adapters.ChatsAdapter
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.dany.chatapp.R
+import kotlinx.android.synthetic.main.fragment_chats.*
+import listeners.ChatClickListener
 
-class ChatsFragment : Fragment() {
-//    private var param1: String? = null
-//    private var param2: String? = null
-//
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        arguments?.let {
-//            param1 = it.getString(ARG_PARAM1)
-//            param2 = it.getString(ARG_PARAM2)
-//        }
-//    }
+class ChatsFragment : Fragment(), ChatClickListener {
+
+    private var chatsAdapter = ChatsAdapter(arrayListOf())
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,22 +25,28 @@ class ChatsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_chats, container, false)
     }
 
-//    companion object {
-//        /**
-//         * Use this factory method to create a new instance of
-//         * this fragment using the provided parameters.
-//         *
-//         * @param param1 Parameter 1.
-//         * @param param2 Parameter 2.
-//         * @return A new instance of fragment ChatsFragment.
-//         */
-//        @JvmStatic
-//        fun newInstance(param1: String, param2: String) =
-//            ChatsFragment().apply {
-//                arguments = Bundle().apply {
-//                    putString(ARG_PARAM1, param1)
-//                    putString(ARG_PARAM2, param2)
-//                }
-//            }
-//    }
+    // Allows me to implement the chatRV (Recycler view) functionality
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        chatsAdapter.setOnItemClickListener(this)
+        chatsRV.apply {
+            setHasFixedSize(false)
+            layoutManager = LinearLayoutManager(context)
+            adapter = chatsAdapter
+            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+        }
+
+        var chatList = arrayListOf("chat 1", "chat 2", "chat 1", "chat 2", "chat 1", "chat 2")
+
+        chatsAdapter.updateChat(chatList)
+    }
+
+    override fun onChatClicked(
+        name: String?,
+        otherUserId: String?,
+        chatImageUrl: String?,
+        chatName: String?
+    ) {
+        Toast.makeText(context, "$name clicked", Toast.LENGTH_SHORT).show()
+    }
 }

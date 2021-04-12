@@ -31,7 +31,13 @@
     </style>
     <style name="LinkText" parent="TextAppearance.AppCompat.SearchResult.Title">
         <item name="android:textColor">@color/blue</item>
-
+    </style>
+    <style name="Text">
+        <item name="android:textSize">18sp</item>
+    </style>
+    <style name="Title">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
     </style>
 
 </resources>
