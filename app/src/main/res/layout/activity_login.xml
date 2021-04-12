@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/grid_3"
                 android:layout_marginLeft="@dimen/grid_3"
-                android:layout_marginTop="@dimen/grid_3"
+                android:layout_marginTop="@dimen/grid_2"
                 android:layout_marginEnd="@dimen/grid_3"
                 android:layout_marginRight="@dimen/grid_3"
                 app:srcCompat="@drawable/title1" />
@@ -43,6 +43,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/emailET"
+                    android:background="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_email"
@@ -64,6 +65,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/passwordET"
+                    android:background="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_password"
@@ -108,7 +110,7 @@
         android:id="@+id/progressLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/teal_200"
+        android:background="@color/white"
         android:gravity="center"
         android:orientation="vertical"
         android:visibility="gone"

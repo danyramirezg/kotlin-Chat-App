@@ -35,6 +35,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/nameETP"
+                    android:background="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_name" />
@@ -50,6 +51,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/phoneETP"
+                    android:background="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_phone" />
@@ -65,6 +67,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/emailETP"
+                    android:background="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_email" />
@@ -96,9 +99,9 @@
 
     <LinearLayout
         android:id="@+id/progressLayout"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/transparent_grey"
+        android:background="@color/white"
         android:gravity="center"
         android:orientation="vertical"
         android:visibility="gone"

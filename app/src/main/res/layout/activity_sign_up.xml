@@ -17,11 +17,11 @@
 
             <ImageView
                 android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/grid_3"
-            android:layout_marginLeft="@dimen/grid_3"
-                android:layout_marginTop="@dimen/grid_3"
+                android:layout_width="395dp"
+                android:layout_height="165dp"
+                android:layout_marginStart="@dimen/grid_3"
+                android:layout_marginLeft="@dimen/grid_3"
+                android:layout_marginTop="@dimen/grid_2"
                 android:layout_marginEnd="@dimen/grid_3"
                 android:layout_marginRight="@dimen/grid_3"
                 app:srcCompat="@drawable/title1" />
@@ -41,6 +41,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/nameET"
+                    android:background="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_name"
@@ -62,6 +63,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/phoneET"
+                    android:background="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_phone"
@@ -83,6 +85,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/emailET"
+                    android:background="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_email"
@@ -104,6 +107,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/passwordET"
+                    android:background="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_password"
