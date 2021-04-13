@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.*
@@ -21,11 +22,14 @@ import com.dany.chatapp.R
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import fragments.ChatsFragment
 import fragments.StatusFragment
 import fragments.StatusUpdateFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_main.view.*
+import util.DATA_USERS
+import util.DATA_USER_PHONE
 import util.PERMISSIONS_REQUEST_READ_CONTACTS
 import util.REQUEST_NEW_CHAT
 import java.util.jar.Manifest
@@ -39,6 +43,8 @@ class MainActivity : AppCompatActivity() {
     private val statusUpdateFragment = StatusUpdateFragment()
     private val chatsFragment = ChatsFragment()
     private val statusFragment = StatusFragment()
+
+    private var firebaseDB = FirebaseFirestore.getInstance()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,7 +78,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-  // This code is for the newChat button (to test in the beginning):
+        // This code is for the newChat button (to test in the beginning):
 //        fab.setOnClickListener { view ->
 //            Snackbar.make(view, "Replace with action", Snackbar.LENGTH_LONG)
 //                .setAction("Action", null).show()
@@ -90,7 +96,7 @@ class MainActivity : AppCompatActivity() {
 
     fun onNewChat(v: View) {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_CONTACTS)
-                                                 != PackageManager.PERMISSION_GRANTED
+            != PackageManager.PERMISSION_GRANTED
         ) {
             // If permission is not granted
             if (ActivityCompat.shouldShowRequestPermissionRationale(
@@ -104,7 +110,7 @@ class MainActivity : AppCompatActivity() {
                     .setPositiveButton("Ask me") { dialog, which -> requestContactPermission() }
                     .setNegativeButton("No") { dialog, which -> } //Don't do anything
                     .show()
-            } else{
+            } else {
                 requestContactPermission()
             }
         } else {
@@ -139,14 +145,53 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if(resultCode == Activity.RESULT_OK){
-            when (requestCode){
-                REQUEST_NEW_CHAT -> {}
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                REQUEST_NEW_CHAT -> {
+                    val name = data?.getStringExtra(PARAM_NAME) ?: ""
+                    val phone = data?.getStringExtra(PARAM_PHONE) ?: ""
+                    checkNewChatUser(name, phone)
+                }
             }
         }
-
-        super.onActivityResult(requestCode, resultCode, data)
     }
+
+    fun checkNewChatUser(name: String, phone: String) {
+
+        if (!name.isNullOrEmpty() && !phone.isNullOrEmpty()) {
+            firebaseDB.collection(DATA_USERS)
+                .whereEqualTo(DATA_USER_PHONE, phone)
+                .get()
+                .addOnSuccessListener { result ->
+                    if (result.documents.size > 0) {
+                        chatsFragment.newChat(result.documents[0].id)
+                    } else {// If I don't have the user in the DB:
+
+                        AlertDialog.Builder(this)
+                            .setTitle("User not found")
+                            .setMessage("$name does not have an account. Send them an SMS to install this app.")
+                            .setPositiveButton("OK") { dialog, which ->
+                                val intent = Intent(Intent.ACTION_VIEW)
+                                intent.data = Uri.parse("sms:$phone")
+                                intent.putExtra(
+                                    "sms_body",
+                                    "Hi $name! You should install this cool app, so we can chat there."
+                                )
+                                startActivity(intent)
+                            }
+                            .setNegativeButton("Cancel", null)
+                            .show()
+                    }
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Please try later, an error ocurred", Toast.LENGTH_SHORT)
+                        .show()
+                    e.printStackTrace()
+                }
+        }
+    }
+
 
     // After I have the permission to access the user contact
     private fun startNewActivity() {

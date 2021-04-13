@@ -12,8 +12,7 @@
         android:layout_width="@dimen/chat_image_size"
         android:layout_height="@dimen/chat_image_size"
         app:cardCornerRadius="@dimen/chat_image_radius"
-        android:layout_centerHorizontal="true"
-        android:background="#750288">
+        android:layout_centerHorizontal="true">
 
         <ImageView
             android:id="@+id/chatIV"

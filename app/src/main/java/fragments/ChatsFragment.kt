@@ -41,6 +41,10 @@ class ChatsFragment : Fragment(), ChatClickListener {
         chatsAdapter.updateChat(chatList)
     }
 
+    fun newChat(partnerId: String){
+
+    }
+
     override fun onChatClicked(
         name: String?,
         otherUserId: String?,
