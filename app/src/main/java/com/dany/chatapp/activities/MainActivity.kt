@@ -28,13 +28,14 @@ import fragments.StatusFragment
 import fragments.StatusUpdateFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_main.view.*
+import listeners.FailureCallback
 import util.DATA_USERS
 import util.DATA_USER_PHONE
 import util.PERMISSIONS_REQUEST_READ_CONTACTS
 import util.REQUEST_NEW_CHAT
 import java.util.jar.Manifest
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), FailureCallback {
 
     private var mySectionPagerAdapter: SectionPagerAdapter? = null
 
@@ -44,12 +45,14 @@ class MainActivity : AppCompatActivity() {
     private val chatsFragment = ChatsFragment()
     private val statusFragment = StatusFragment()
 
-    private var firebaseDB = FirebaseFirestore.getInstance()
+    private val firebaseDB = FirebaseFirestore.getInstance()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        chatsFragment.setFailureCallbackListener(this)
 
         setSupportActionBar(toolbar)
         mySectionPagerAdapter = SectionPagerAdapter(supportFragmentManager)
@@ -84,6 +87,13 @@ class MainActivity : AppCompatActivity() {
 //                .setAction("Action", null).show()
 //        }
     }
+
+    override fun onUserError() {
+        Toast.makeText(this, "User not founded", Toast.LENGTH_SHORT).show()
+        startActivity(LoginActivity.newIntent(this))
+        finish()
+    }
+
 
     // Change the camera tab (Make it smaller)
     fun resizeTabs() {
@@ -161,7 +171,7 @@ class MainActivity : AppCompatActivity() {
 
         if (!name.isNullOrEmpty() && !phone.isNullOrEmpty()) {
             firebaseDB.collection(DATA_USERS)
-                .whereEqualTo(DATA_USER_PHONE, phone)
+                .whereEqualTo(DATA_USER_PHONE, phone.replace(" ", ""))
                 .get()
                 .addOnSuccessListener { result ->
                     if (result.documents.size > 0) {
@@ -255,6 +265,7 @@ class MainActivity : AppCompatActivity() {
 
         fun newIntent(context: Context) = Intent(context, MainActivity::class.java)
     }
+
 }
 
 

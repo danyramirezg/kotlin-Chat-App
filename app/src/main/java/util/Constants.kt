@@ -16,4 +16,7 @@ val DATA_IMAGES = "Images"
 // Permissions:
 val PERMISSIONS_REQUEST_READ_CONTACTS = 543
 
+// Chats:
 val REQUEST_NEW_CHAT = 7800
+val DATA_USER_CHATS = "userChats"
+val DATA_CHATS = "Chats"
