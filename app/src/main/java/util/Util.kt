@@ -16,7 +16,7 @@ fun populateImage(
     if (context != null) {
         val options = RequestOptions()
 
-            .placeholder(progressDrawable(context)) //Add a circular progress Drawable in the placeholder
+             .placeholder(progressDrawable(context)) //Add a circular progress Drawable in the placeholder
             .error(errorDrawable)
         Glide.with(context)
             .load(uri)

@@ -166,11 +166,11 @@ class ChatsFragment : Fragment(), ChatClickListener {
 
 
     override fun onChatClicked(
-        name: String?,
+        chatId: String?,
         otherUserId: String?,
         chatImageUrl: String?,
         chatName: String?
     ) {
-        startActivity(ConversationActivity.newIntent(context))
+        startActivity(ConversationActivity.newIntent(context, chatId, chatImageUrl, otherUserId, chatName))
     }
 }
