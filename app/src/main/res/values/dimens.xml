@@ -28,5 +28,6 @@
     <dimen name="send_height">75dp</dimen>
     <dimen name="send_min_height">75dp</dimen>
     <dimen name="send_max_height">150dp</dimen>
+    <dimen name="chat_image_size">100dp</dimen>
 
 </resources>

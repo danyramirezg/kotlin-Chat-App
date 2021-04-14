@@ -1,6 +1,5 @@
 package com.dany.chatapp.activities
 
-import android.Manifest.permission.READ_CONTACTS
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -12,25 +11,21 @@ import android.view.*
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.constraintlayout.widget.Placeholder
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.dany.chatapp.R
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import fragments.ChatsFragment
-import fragments.StatusFragment
+import fragments.StatusListFragment
 import fragments.StatusUpdateFragment
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_main.view.*
 import listeners.FailureCallback
 import util.*
-import java.util.jar.Manifest
 
 class MainActivity : AppCompatActivity(), FailureCallback {
 
@@ -40,7 +35,7 @@ class MainActivity : AppCompatActivity(), FailureCallback {
 
     private val statusUpdateFragment = StatusUpdateFragment()
     private val chatsFragment = ChatsFragment()
-    private val statusFragment = StatusFragment()
+    private val statusFragment = StatusListFragment()
 
     private val firebaseDB = FirebaseFirestore.getInstance()
 
