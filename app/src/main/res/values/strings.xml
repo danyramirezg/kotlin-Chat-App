@@ -20,5 +20,8 @@
     <string name="hello_chats_fragment">Hello from chats fragment</string>
     <string name="hello_status_fragment">Hello from status fragment</string>
     <string name="send_button_text">Button</string>
+    <string name="test">Hi \n How are you \n What are you doing?</string>
+
+
 
 </resources>
