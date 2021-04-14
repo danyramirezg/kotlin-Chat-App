@@ -169,9 +169,13 @@ class MainActivity : AppCompatActivity(), FailureCallback {
 
     fun checkNewChatUser(name: String, phone: String) {
 
+        val phoneClean = phone.replace(" ", "")
+            .replace("(", "").replace(")", "")
+            .replace("-", "")
+
         if (!name.isNullOrEmpty() && !phone.isNullOrEmpty()) {
             firebaseDB.collection(DATA_USERS)
-                .whereEqualTo(DATA_USER_PHONE, phone.replace(" ", ""))
+                .whereEqualTo(DATA_USER_PHONE, phoneClean)
                 .get()
                 .addOnSuccessListener { result ->
                     if (result.documents.size > 0) {

@@ -4,14 +4,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dany.chatapp.R
+import com.google.api.Distribution
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import listeners.ChatClickListener
 import listeners.ContactsClickListener
-import util.Contact
-import util.populateImage
+import util.*
 
 class ChatsAdapter(val chats: ArrayList<String>) :
     RecyclerView.Adapter<ChatsAdapter.ChatsViewHolder>() {
@@ -46,7 +49,7 @@ class ChatsAdapter(val chats: ArrayList<String>) :
     }
 
     // Allows me update the list on the adapter
-    fun updateChat(updatedChats: ArrayList<String>){
+    fun updateChat(updatedChats: ArrayList<String>) {
         chats.clear()
         chats.addAll(updatedChats)
         notifyDataSetChanged()
@@ -57,13 +60,67 @@ class ChatsAdapter(val chats: ArrayList<String>) :
     class ChatsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         private var chatIV = view.findViewById<ImageView>(R.id.chatIV)
-        private var chatName = view.findViewById<TextView>(R.id.chatTV)
+        private var chatNameTV = view.findViewById<TextView>(R.id.chatTV)
+        private var layout = view.findViewById<RelativeLayout>(R.id.chatLayout)
+        private var progressLayout = view.findViewById<LinearLayout>(R.id.progressLayout)
+
+        private val userId = FirebaseAuth.getInstance().currentUser.uid
+        private val firebaseDB = FirebaseFirestore.getInstance()
+        private val firebaseAuth = FirebaseAuth.getInstance().currentUser.uid
+
+        private var partnerId: String? = null
+        private var chatImageUrl: String? = null
+        private var chatName: String? = null
 
         //Populate the list of the elements
         fun bind(chatId: String, listener: ChatClickListener?) {
 
-            chatName.text = chatId
-            populateImage(chatIV.context, "", chatIV, R.drawable.default_user)
+            progressLayout.visibility = View.GONE
+            progressLayout.setOnTouchListener { v, event -> true }
+
+            firebaseDB.collection(DATA_CHATS).document(chatId).get()
+                .addOnSuccessListener { document ->
+                    val chatParticipants: Any? = document[DATA_CHAT_PARTICIPANTS]
+                    if (chatParticipants != null) {
+                    for (participant in chatParticipants as ArrayList<String>) {
+                        if (participant != null && participant != userId) {
+                            partnerId = participant
+                            firebaseDB.collection(DATA_USERS)
+                                .document(partnerId!!)
+                                .get()
+                                .addOnSuccessListener { document ->
+                                    val user: User? = document.toObject(User::class.java)
+                                    chatImageUrl = user?.imageUrl
+                                    chatName = user?.name
+                                    chatNameTV.text = user?.name
+                                    populateImage(
+                                        chatIV.context,
+                                        user?.imageUrl,
+                                        chatIV,
+                                        R.drawable.default_user
+                                    )
+                                    progressLayout.visibility = View.GONE
+                                }
+                                .addOnFailureListener { e ->
+                                    e.printStackTrace()
+                                    progressLayout.visibility = View.GONE
+                                }
+                        }
+                    }
+                }
+        }
+                .addOnFailureListener { e ->
+                    e.printStackTrace()
+                    progressLayout.visibility = View.GONE
+                }
+            layout.setOnClickListener {
+                listener?.onChatClicked(
+                    chatId,
+                    partnerId,
+                    chatImageUrl,
+                    chatName
+                )
+            }
         }
     }
 }
