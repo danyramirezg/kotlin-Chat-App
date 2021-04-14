@@ -7,6 +7,8 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.dany.chatapp.R
+import java.text.DateFormat
+import java.util.*
 
 fun populateImage(
     context: Context, uri: String?, imageView: ImageView,
@@ -33,4 +35,9 @@ fun progressDrawable(context: Context): CircularProgressDrawable {
         start()
 
     }
+}
+
+fun getTime(): String{
+    val df: DateFormat = DateFormat.getDateInstance()
+    return df.format(Date())
 }

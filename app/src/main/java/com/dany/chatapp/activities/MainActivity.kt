@@ -155,6 +155,7 @@ class MainActivity : AppCompatActivity(), FailureCallback {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
+                REQUEST_CODE_PHOTO -> statusUpdateFragment.storeImage(data?.data)
                 REQUEST_NEW_CHAT -> {
                     val name = data?.getStringExtra(PARAM_NAME) ?: ""
                     val phone = data?.getStringExtra(PARAM_PHONE) ?: ""
