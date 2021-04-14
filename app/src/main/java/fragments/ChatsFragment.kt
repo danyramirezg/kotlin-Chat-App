@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dany.chatapp.R
+import com.dany.chatapp.activities.ConversationActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -170,6 +171,6 @@ class ChatsFragment : Fragment(), ChatClickListener {
         chatImageUrl: String?,
         chatName: String?
     ) {
-        Toast.makeText(context, "$name clicked", Toast.LENGTH_SHORT).show()
+        startActivity(ConversationActivity.newIntent(context))
     }
 }

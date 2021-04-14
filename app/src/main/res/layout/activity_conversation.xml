@@ -22,6 +22,7 @@
             android:id="@+id/chatCVC"
             android:layout_width="@dimen/standard_height"
             android:layout_height="@dimen/standard_height"
+            android:layout_margin="@dimen/grid_2"
             app:cardCornerRadius="@dimen/card_corner_radius">
 
             <ImageView
@@ -43,6 +44,7 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/messagesRV"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/grid_2"
