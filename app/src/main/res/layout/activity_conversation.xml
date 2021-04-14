@@ -71,10 +71,10 @@
         android:layout_margin="@dimen/grid_1"
         android:layout_marginBottom="@dimen/grid_2"
         android:hint="@string/hint_message"
-        android:maxHeight="150dp"
-        android:minHeight="75dp"
+        android:maxHeight="@dimen/send_max_height"
+        android:minHeight="@dimen/send_min_height"
         android:padding="@dimen/grid_1"
-        android:textAlignment="center"
+        android:textAlignment="gravity"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/sendButton"
         app:layout_constraintStart_toStartOf="parent" />

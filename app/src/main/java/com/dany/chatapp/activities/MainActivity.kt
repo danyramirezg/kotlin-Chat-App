@@ -29,10 +29,7 @@ import fragments.StatusUpdateFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_main.view.*
 import listeners.FailureCallback
-import util.DATA_USERS
-import util.DATA_USER_PHONE
-import util.PERMISSIONS_REQUEST_READ_CONTACTS
-import util.REQUEST_NEW_CHAT
+import util.*
 import java.util.jar.Manifest
 
 class MainActivity : AppCompatActivity(), FailureCallback {
@@ -125,7 +122,7 @@ class MainActivity : AppCompatActivity(), FailureCallback {
             }
         } else {
             // If Permission is Granted then starts newActivity
-            startNewActivity()
+            startNewActivity(REQUEST_NEW_CHAT)
         }
 
     }
@@ -148,7 +145,7 @@ class MainActivity : AppCompatActivity(), FailureCallback {
             // If I have the permission, I'm going to the fun startNewActivity()
             PERMISSIONS_REQUEST_READ_CONTACTS -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    startNewActivity()
+                    startNewActivity(REQUEST_NEW_CHAT )
                 }
             }
         }
@@ -208,8 +205,17 @@ class MainActivity : AppCompatActivity(), FailureCallback {
 
 
     // After I have the permission to access the user contact
-    private fun startNewActivity() {
-        startActivityForResult(ContactsActivity.newIntent(this), REQUEST_NEW_CHAT)
+     fun startNewActivity(requestCode: Int) {
+
+        when(requestCode){
+            REQUEST_NEW_CHAT -> startActivityForResult(ContactsActivity.newIntent(this), REQUEST_NEW_CHAT)
+            REQUEST_CODE_PHOTO ->{
+                val intent = Intent(Intent.ACTION_PICK)
+                intent.type = "image/*"
+                startActivityForResult(intent, REQUEST_CODE_PHOTO)
+            }
+        }
+
     }
 
 

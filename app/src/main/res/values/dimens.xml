@@ -26,5 +26,7 @@
     <dimen name="card_corner_radius">25dp</dimen>
     <dimen name="send_width">100dp</dimen>
     <dimen name="send_height">75dp</dimen>
+    <dimen name="send_min_height">75dp</dimen>
+    <dimen name="send_max_height">150dp</dimen>
 
 </resources>

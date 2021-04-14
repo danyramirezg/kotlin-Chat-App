@@ -5,20 +5,25 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.dany.chatapp.R
+import com.dany.chatapp.activities.MainActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import kotlinx.android.synthetic.main.fragment_status_update.*
+import kotlinx.android.synthetic.main.item_chat.*
+import kotlinx.android.synthetic.main.item_chat.progressLayout
+import util.REQUEST_CODE_PHOTO
+import util.populateImage
 
 
 class StatusUpdateFragment : Fragment() {
-//    private var param1: String? = null
-//    private var param2: String? = null
-//
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        arguments?.let {
-//            param1 = it.getString(ARG_PARAM1)
-//            param2 = it.getString(ARG_PARAM2)
-//        }
-//    }
+
+    private val firebaseDB = FirebaseFirestore.getInstance()
+    private val firebaseStorage = FirebaseStorage.getInstance().reference
+    private val userId = FirebaseAuth.getInstance().currentUser?.uid
+    private var imageUrl = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,24 +31,30 @@ class StatusUpdateFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_status_update, container, false)
+
     }
 
-//    companion object {
-//        /**
-//         * Use this factory method to create a new instance of
-//         * this fragment using the provided parameters.
-//         *
-//         * @param param1 Parameter 1.
-//         * @param param2 Parameter 2.
-//         * @return A new instance of fragment StatusUpdateFragment.
-//         */
-//        @JvmStatic
-//        fun newInstance(param1: String, param2: String) =
-//            StatusUpdateFragment().apply {
-//                arguments = Bundle().apply {
-//                    putString(ARG_PARAM1, param1)
-//                    putString(ARG_PARAM2, param2)
-//                }
-//            }
-//    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?){
+        super.onViewCreated(view, savedInstanceState)
+
+        // Intercept all clicks by the user. When the progress layout is visible the user cannot click on anything
+        progressLayout.setOnTouchListener{ v, event -> true}
+        sendStatusButton.setOnClickListener{ onUpdate()}
+        context?.let { populateImage(it, imageUrl, statusIV) }
+
+        statusLayout.setOnClickListener{
+            if(isAdded){
+                (activity as MainActivity).startNewActivity(REQUEST_CODE_PHOTO)
+            }
+        }
+    }
+
+    fun onUpdate(){
+
+    }
+
+    private fun onUploadFailure(){
+        Toast.makeText(activity, "Image upload failed. Please try again later", Toast.LENGTH_SHORT).show()
+        progressLayout.visibility = View.GONE
+    }
 }
