@@ -27,9 +27,9 @@
 
             <ImageView
                 android:id="@+id/topPhotoIV"
-                android:layout_width="@dimen/standard_width"
+                android:layout_width="@dimen/standard_height"
                 android:layout_height="@dimen/standard_height"
-                android:scaleType="fitCenter"
+                android:scaleType="centerCrop"
                 android:layout_marginRight="@dimen/grid_1"/>
         </androidx.cardview.widget.CardView>
 
