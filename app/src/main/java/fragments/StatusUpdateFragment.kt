@@ -88,6 +88,18 @@ class StatusUpdateFragment : Fragment() {
         map[DATA_USER_STATUS_URL] = imageUrl
         map[DATA_USER_STATUS_TIME] = getTime()
 
+        firebaseDB.collection(DATA_USERS)
+            .document(userId!!)
+            .update(map)
+            .addOnSuccessListener {
+                progressLayout.visibility = View.GONE
+                Toast.makeText(activity, "Status updated", Toast.LENGTH_SHORT).show()
+
+            }
+            .addOnFailureListener{
+                progressLayout.visibility = View.GONE
+                Toast.makeText(activity, "Status update failed", Toast.LENGTH_SHORT).show()
+            }
     }
 
     private fun onUploadFailure() {
