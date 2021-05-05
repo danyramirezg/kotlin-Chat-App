@@ -63,6 +63,12 @@ class LoginActivity : AppCompatActivity() {
 
         var proceed = true
 
+
+//        if(!android.util.Patterns.EMAIL_ADDRESS.matcher(emailET.text).matches()){
+//            emailTIL.error = "Email badly formatted"
+//        }
+
+
         if (emailET.text.isNullOrEmpty()) {
             emailTIL.error = "Email is required"
             emailTIL.isErrorEnabled = true
