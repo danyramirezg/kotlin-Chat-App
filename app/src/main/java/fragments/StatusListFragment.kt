@@ -67,7 +67,7 @@ class StatusListFragment : Fragment(), StatusItemClickListener {
                     val partners = doc[DATA_USER_CHATS]
                     for(partner:String in (partners as HashMap<String, String>).keys){
                         firebaseDb.collection(DATA_USERS)
-                            .document()
+                            .document(partner)
                             .get()
                             .addOnSuccessListener { documentSnapshot ->
                                 val partner = documentSnapshot.toObject(User::class.java)
